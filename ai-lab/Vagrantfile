@@ -1,0 +1,123 @@
+Vagrant.configure("2") do |config|
+
+  # Общий образ
+  config.vm.box = "ubuntu/jammy64"
+
+
+  # Общие настройки
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+  end
+
+
+  #
+  # PostgreSQL
+  #
+  config.vm.define "postgres" do |vm|
+
+    vm.vm.hostname = "postgres"
+
+    # Имя в VirtualBox
+    vm.vm.provider "virtualbox" do |vb|
+      vb.name = "AI-LAB-PostgreSQL"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+
+    vm.vm.network "private_network",
+      ip: "192.168.56.10"
+
+
+    vm.vm.provision "shell",
+      path: "scripts/postgres.sh"
+
+  end
+
+
+
+  #
+  # n8n
+  #
+  config.vm.define "n8n" do |vm|
+
+    vm.vm.hostname = "n8n"
+
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.name = "AI-LAB-n8n"
+      vb.memory = 1536
+      vb.cpus = 2
+    end
+
+
+    vm.vm.network "private_network",
+      ip: "192.168.56.11"
+
+
+    vm.vm.provision "shell",
+      path: "scripts/n8n.sh"
+
+  end
+
+
+
+
+  #
+  # Ollama
+  #
+  config.vm.define "ollama" do |vm|
+
+    vm.vm.hostname = "ollama"
+
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.name = "AI-LAB-Ollama"
+
+      # Mistral 7B
+      vb.memory = 6144
+      vb.cpus = 4
+    end
+
+
+    vm.vm.network "private_network",
+      ip: "192.168.56.12"
+
+
+    vm.vm.provision "shell",
+      path: "scripts/ollama.sh"
+
+  end
+
+
+
+
+
+  #
+  # Wiki.js
+  #
+  config.vm.define "wiki" do |vm|
+
+    vm.vm.hostname = "wiki"
+
+
+    vm.vm.provider "virtualbox" do |vb|
+      vb.name = "AI-LAB-WikiJS"
+
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+
+    vm.vm.network "private_network",
+      ip: "192.168.56.13"
+
+
+    vm.vm.provision "shell",
+      path: "scripts/wiki.sh"
+
+  end
+
+
+
+end
