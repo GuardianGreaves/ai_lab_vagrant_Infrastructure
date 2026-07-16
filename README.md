@@ -179,15 +179,12 @@ vagrant up
 
 ```text
 ai-lab/
-
 ├── Vagrantfile
-
 ├── scripts/
 │   ├── postgres.sh
 │   ├── n8n.sh
 │   ├── ollama.sh
 │   └── wiki.sh
-
 └── README.md
 ```
 
